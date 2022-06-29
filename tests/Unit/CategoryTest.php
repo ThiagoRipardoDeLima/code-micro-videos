@@ -14,21 +14,28 @@ class CategoryTest extends TestCase
 {
     use DatabaseMigrations;
 
+    private $category;
+
+    protected function setUp():void
+    {
+        parent::setUp();
+        $this->category = new Category();
+    }
+
     public function testFillableAttribute()
     {
-        $category = new Category();
         $fillable = ["name", "description", "is_active"];
-        $this->assertEquals($fillable,$category->getFillable());
+        $this->assertEquals($fillable,$this->category->getFillable());
     }
 
     public function testDatesAttribute()
     {
-        $category = new Category();
+        
         $dates = ["deleted_at", "created_at", "updated_at"];
         foreach($dates as $date):
-            $this->assertContains($date, $category->getDates());
+            $this->assertContains($date, $this->category->getDates());
         endforeach;
-        $this->assertCount(count($dates), $category->getDates());
+        $this->assertCount(count($dates), $this->category->getDates());
     }
 
     public function testIfUseTrait()
@@ -43,15 +50,13 @@ class CategoryTest extends TestCase
 
     public function testCasts()
     {
-        $category = new Category();
         $casts = ["id"=>"string"];
-        $this->assertEquals($casts, $category->getCasts());
+        $this->assertEquals($casts, $this->category->getCasts());
     }
 
     public function testIncrementing()
     {
-        $category = new Category();
-        $this->assertFalse($category->incrementing);
+        $this->assertFalse($this->category->incrementing);
     }
 
 }
